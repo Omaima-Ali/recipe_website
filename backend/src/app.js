@@ -1,17 +1,21 @@
-const express = require("express");
-const cors = require("cors");
-require("./config/db"); // Connect MongoDB (optional for now)
+import  express from "express";
+import  cors from "cors";
+import{ connectDB }from  './config/db.js'
+import authRoutes from './routes/user.routes.js';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
 const app = express();
+dotenv.config()
 
-// Middleware
+// Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());   
+//routes;
+app.use('/api/auth', authRoutes);
 
-// Import routes
-const userRoutes = require("./routes/userRoutes");
+connectDB();
 
-// Route registration
-app.use("/api/users", userRoutes);
-
-module.exports = app;
+ export default app;
+ 
