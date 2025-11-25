@@ -1,13 +1,12 @@
-// controllers/authController.js
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
 
 // JWT token generator
 const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
 // ---------------- REGISTER ----------------
+// Function to register a new user
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -40,6 +39,7 @@ export const register = async (req, res) => {
 };
 
 // ---------------- LOGIN ----------------
+// Function to login an existing user
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -73,16 +73,30 @@ export const login = async (req, res) => {
     }
 };
 
-export const getProfile=async (req,res) => {
+// Function to logout user by clearing token cookie
+export const logout = async (req, res) => {
     try {
-        const user=await User.findById(req.user._id).select("-password");
-        
+        res.cookie("token", "", {
+            httpOnly: true,
+            expires: new Date(0)
+        })
+         return res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+         res.status(500).json({ message: error.message });
+    }
+}
+
+// Function to get the profile of logged-in user
+export const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select("-password");
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-       return res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
-        return  res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 }
