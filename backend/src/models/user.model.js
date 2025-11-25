@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+
+// User model schema definition
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,7 +15,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-
   },
   savedRecipes: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -25,5 +26,6 @@ const userSchema = new mongoose.Schema({
   }]
 },{timestamps:true});
 
-const User= mongoose.model('User',userSchema)
-export default User
+// Create User model from schema
+const User = mongoose.model('User', userSchema);
+export default User;

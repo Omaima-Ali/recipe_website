@@ -20,3 +20,5 @@ Thumbs.db
 # Build folders (if any)
 dist/
 build/
+config.bat
+node_modules
