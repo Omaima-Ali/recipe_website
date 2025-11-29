@@ -14,9 +14,10 @@ frontend/.env
 Thumbs.db
 
 # IDE
-.vscode/
 .idea/
 
 # Build folders (if any)
 dist/
 build/
+config.bat
+node_modules
